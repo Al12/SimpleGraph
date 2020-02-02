@@ -1,19 +1,19 @@
 package test;
 
 import main.DirectedGraph;
+import main.UndirectedGraph;
 import org.junit.jupiter.api.Assertions;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DirectedGraphTest {
+class UndirectedGraphTest {
 
     @org.junit.jupiter.api.Test
     void addVertex() {
-        DirectedGraph<Integer> emptyGraph = new DirectedGraph<>();
+        UndirectedGraph<Integer> emptyGraph = new UndirectedGraph<>();
 
         Integer vertex = 1;
 
@@ -23,7 +23,7 @@ class DirectedGraphTest {
 
     @org.junit.jupiter.api.Test
     void addEdge() {
-        DirectedGraph<Integer> newGraph = new DirectedGraph<>();
+        UndirectedGraph<Integer> newGraph = new UndirectedGraph<>();
         Integer vertexOne = 1;
         Integer vertexTwo = 2;
         Integer vertexThree = 3;
@@ -44,7 +44,7 @@ class DirectedGraphTest {
 
     @org.junit.jupiter.api.Test
     void getPath() {
-        DirectedGraph<Integer> newGraph = new DirectedGraph<>();
+        UndirectedGraph<Integer> newGraph = new UndirectedGraph<>();
         Integer vertexOne = 1;
         Integer vertexFirstPathTwo = 12;
         Integer vertexSecondPathTwo = 22;
@@ -73,21 +73,26 @@ class DirectedGraphTest {
         Assertions.assertEquals(List.of(vertexOne, vertexFirstPathTwo),
                 newGraph.getPath(vertexOne, vertexFirstPathTwo),
                 "Direct vertex to vertex path should be found");
+        Assertions.assertEquals(List.of(vertexFirstPathTwo, vertexOne),
+                newGraph.getPath(vertexFirstPathTwo, vertexOne),
+                "Reverse vertex to vertex path should be found");
         Assertions.assertEquals(List.of(vertexOne, vertexFirstPathTwo, vertexFour),
                 newGraph.getPath(vertexOne, vertexFour),
                 "Correct path out of two should be found");
-        Assertions.assertEquals(Collections.emptyList(),
+        Assertions.assertEquals(List.of(vertexFirstPathTwo, vertexFour, vertexSecondPathThree),
                 newGraph.getPath(vertexFirstPathTwo, vertexSecondPathThree),
-                "Empty list should be returned for impossible path");
+                "Correct path out of two should be found");
 
 //        adding a path
         newGraph.addEdge(vertexFirstPathTwo, vertexSecondPathTwo);
-        Assertions.assertEquals(List.of(vertexFirstPathTwo, vertexSecondPathTwo, vertexSecondPathThree),
-                newGraph.getPath(vertexFirstPathTwo, vertexSecondPathThree),
+        Assertions.assertEquals(List.of(vertexFirstPathTwo, vertexSecondPathTwo),
+                newGraph.getPath(vertexFirstPathTwo, vertexSecondPathTwo),
                 "New path should be found");
 
+        Integer singleVertex = 999;
+        newGraph.addVertex(singleVertex);
         Assertions.assertEquals(Collections.emptyList(),
-                newGraph.getPath(vertexSecondPathTwo, vertexFirstPathTwo),
+                newGraph.getPath(vertexOne, singleVertex),
                 "Empty list should be returned for impossible path");
     }
 }
