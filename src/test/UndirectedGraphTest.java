@@ -95,4 +95,21 @@ class UndirectedGraphTest {
                 newGraph.getPath(vertexOne, singleVertex),
                 "Empty list should be returned for impossible path");
     }
+
+
+    @org.junit.jupiter.api.Test
+    void testLoops() {
+        UndirectedGraph<Integer> newGraph = new UndirectedGraph<>();
+        Integer vertexOne = 1;
+        newGraph.addVertex(vertexOne);
+        Assertions.assertEquals(Collections.emptyList(),
+                newGraph.getPath(vertexOne, vertexOne),
+                "Empty list should be returned for nonexistant path");
+
+        newGraph.addEdge(vertexOne, vertexOne);
+        Assertions.assertEquals(List.of(vertexOne, vertexOne),
+                newGraph.getPath(vertexOne, vertexOne),
+                "Looping edge can be used for path");
+
+    }
 }

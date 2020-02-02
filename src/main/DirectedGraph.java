@@ -27,7 +27,12 @@ public class DirectedGraph<T> implements Graph<T> {
             throw new IllegalArgumentException(String.format("Cannot find path (%s, %s) between vertices not in graph",
                     first.toString(), second.toString()));
         }
-//        Dijkstra's algorithm. Initializing distances map and disposable vertex set
+        if (first == second && edges.get(first).contains(second)) {
+            //loop edge case
+            return List.of(first, second);
+        }
+//      based on Dijkstra's algorithm
+//      Initializing distances map and disposable vertex set
         Map<T, Integer> distance = edges.keySet().stream().collect(Collectors.toMap(v -> v, v -> Integer.MAX_VALUE - 1));
         Map<T, T> shortBackPaths = new HashMap<>();
         Set<T> unmappedVertices = new HashSet<>(edges.keySet());
@@ -40,8 +45,6 @@ public class DirectedGraph<T> implements Graph<T> {
             edges.get(closestVertex).forEach(v -> {
                 if (distance.get(v) > distance.get(closestVertex) + 1) {
 //                    better path is found, updating
-//                    System.out.println(String.format("Distance update: from %s to %s is %d through %s",
-//                            first, v, distance.get(closestVertex) + 1, closestVertex));
                     distance.put(v, distance.get(closestVertex) + 1);
                     shortBackPaths.put(v, closestVertex);
                 }
@@ -60,9 +63,9 @@ public class DirectedGraph<T> implements Graph<T> {
             }
         }
 //        path was found if next vertex is the goal
-        if (nextVertex == first) {
-            wayBack.add(first);
-            Collections.reverse(wayBack);
+        if (nextVertex == first && wayBack.size() > 0) {
+            wayBack.add(first); // completing the path
+            Collections.reverse(wayBack);   // to actual vertices order
             return wayBack;
         } else {
             return Collections.emptyList();

@@ -1,6 +1,7 @@
 package test;
 
 import main.DirectedGraph;
+import main.UndirectedGraph;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.ArrayList;
@@ -89,5 +90,21 @@ class DirectedGraphTest {
         Assertions.assertEquals(Collections.emptyList(),
                 newGraph.getPath(vertexSecondPathTwo, vertexFirstPathTwo),
                 "Empty list should be returned for impossible path");
+    }
+
+    @org.junit.jupiter.api.Test
+    void testLoops() {
+        DirectedGraph<Integer> newGraph = new DirectedGraph<>();
+        Integer vertexOne = 1;
+        newGraph.addVertex(vertexOne);
+        Assertions.assertEquals(Collections.emptyList(),
+                newGraph.getPath(vertexOne, vertexOne),
+                "Empty list should be returned for nonexistant path");
+
+        newGraph.addEdge(vertexOne, vertexOne);
+        Assertions.assertEquals(List.of(vertexOne, vertexOne),
+                newGraph.getPath(vertexOne, vertexOne),
+                "Looping edge can be used for path");
+
     }
 }

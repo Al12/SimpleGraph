@@ -18,6 +18,6 @@ public interface Graph<T> {
     /**
      * Returns a list of edges between 2 vertices (path doesn’t have to be optimal).
      */
-//    TODO: think on best representation of "a list of edges"
+//    TODO: select best representation of "a list of edges"
     List<T> getPath(T first, T second);
 }
