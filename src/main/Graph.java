@@ -12,11 +12,12 @@ public interface Graph<T> {
 
     /**
      * Adds edge to the graph.
+     * @return returns 'true' if this graph did not already contain the edge.
      */
     boolean addEdge(T first, T second);
 
     /**
-     * Returns a list of edges between 2 vertices (path doesn’t have to be optimal).
+     * Returns a list of edges between 2 vertices, or empty list if path was not found.
      */
 //    TODO: select best representation of "a list of edges"
     List<T> getPath(T first, T second);
