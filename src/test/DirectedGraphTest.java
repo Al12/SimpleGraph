@@ -107,4 +107,30 @@ class DirectedGraphTest {
                 "Looping edge can be used for path");
 
     }
+
+    @org.junit.jupiter.api.Test
+    void diviedGraphPaths() {
+        DirectedGraph<Integer> newGraph = new DirectedGraph<>();
+        Integer vertexOne = 1;
+        Integer vertexTwo = 2;
+        Integer vertexThree = 3;
+        Integer vertexFour = 4;
+
+        newGraph.addVertex(vertexOne);
+        newGraph.addVertex(vertexTwo);
+        newGraph.addVertex(vertexThree);
+        newGraph.addVertex(vertexFour);
+
+//      1 -> 2
+        newGraph.addEdge(vertexOne, vertexTwo);
+//      3 -> 4
+        newGraph.addEdge(vertexThree, vertexFour);
+
+        Assertions.assertEquals(List.of(vertexOne, vertexTwo),
+                newGraph.getPath(vertexOne, vertexTwo),
+                "Path in first half of the graph should be found");
+        Assertions.assertEquals(List.of(vertexThree, vertexFour),
+                newGraph.getPath(vertexThree, vertexFour),
+                "Path in second half of the graph should be found");
+    }
 }
